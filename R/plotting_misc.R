@@ -62,3 +62,81 @@ lines_with_undershading <- function(x,y,color,undercolor=NA,...) {
 
 	add_under_color(x,y,undercolor)
 }
+
+#' Draws A Line with Confidence Interval Shading
+#'
+#' This function draws a line with confidence interval shading
+#' @param x X-coordindates of the line
+#' @param y X-coordindates of the line
+#' @param top_interval Y-coordindates of the top of the interval
+#' @param bottom_interval Y-coordindates of the bottom of the interval
+#' @param color Optional: Change the color of the plotted points/CI shading
+#' @param ... Optional: Any additional parameters will be passed on to the lines function
+#' @keywords confidence interval plot
+#' @export
+#' @examples
+#' plot_with_conf_int(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
+
+plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) {
+	if (is.na(color)) {
+		color = rgb(0,0,0);
+	}
+
+	plot(x,y,ylim = c(min(bottom_interval)*1.05,max(top_interval)*1.05),
+		 col=color,...);
+	
+	shade_color = add_alpha_to_color(color,0.5);
+
+	polygon(c(x,rev(x)),c(top_interval,rev(bottom_interval)),col=shade_color,
+			border=NA);
+}
+
+plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
+	print(dim(mat));
+	means = colMeans(mat,na.rm=T);
+
+	top_int = apply(mat,2,function(x) t.test(x)$conf.int[2])
+	bottom_int = apply(mat,2,function(x) t.test(x)$conf.int[1])
+	
+	if (is.na(x_coords)) {
+		x_coords = 1:dim(mat)[2]
+	}
+
+	plot_mat_with_conf_int(x_coords,means,top_int,bottom_int,color=color,...)
+}
+
+plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,...) {
+	library(Hmisc);
+
+  if (! is.character(label_names[1]) & is.na(label_names[1])) {
+    label_names = names(data)
+  }
+
+	top_int = c();
+	bottom_int = c();
+	means = c();
+	
+  if (class(data) == "list") {
+    for (exp_name in names(data)) {
+      this_set = data[[exp_name]];
+      conf_int = t.test(this_set)$conf.int;
+      top_int = c(top_int,conf_int[2]);
+      bottom_int = c(bottom_int,conf_int[1]);
+      
+      means = c(means,mean(this_set));
+    }
+  } else {
+    top_int = apply(data,2,function(x) t.test(x,conf.level=0.99)$conf.int[2])
+    bottom_int = apply(data,2,function(x) t.test(x,conf.level=0.99)$conf.int[1])
+    
+    means = colMeans(data,na.rm=T);
+  }
+
+	bar_mids = barplot(means,ylim=c(0,max(top_int)*1.01),
+                     names=label_names,axisnames=F,lwd=3,...);
+
+  #lwd = -1 makes the axes bars disappear
+  axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1)
+  
+  errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=3)
+}

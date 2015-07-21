@@ -9,7 +9,7 @@ plotLinesWithConfInt(x, y, top_interval, bottom_interval, color = NA, ...)
 \arguments{
 \item{x}{X-coordindates of the line}
 
-\item{y}{X-coordindates of the line}
+\item{y}{Y-coordindates of the line}
 
 \item{top_interval}{Y-coordindates of the top of the interval}
 
@@ -23,7 +23,7 @@ plotLinesWithConfInt(x, y, top_interval, bottom_interval, color = NA, ...)
 This function draws a line with confidence interval shading
 }
 \examples{
-plot_with_conf_int(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
+plotLinesWithConfInt(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
 }
 \keyword{confidence}
 \keyword{interval}

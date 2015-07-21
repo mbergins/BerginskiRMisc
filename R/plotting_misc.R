@@ -67,7 +67,7 @@ lines_with_undershading <- function(x,y,color,undercolor=NA,...) {
 #'
 #' This function draws a line with confidence interval shading
 #' @param x X-coordindates of the line
-#' @param y X-coordindates of the line
+#' @param y Y-coordindates of the line
 #' @param top_interval Y-coordindates of the top of the interval
 #' @param bottom_interval Y-coordindates of the bottom of the interval
 #' @param color Optional: Change the color of the plotted points/CI shading
@@ -75,7 +75,7 @@ lines_with_undershading <- function(x,y,color,undercolor=NA,...) {
 #' @keywords confidence interval plot
 #' @export
 #' @examples
-#' plot_with_conf_int(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
+#' plotLinesWithConfInt(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
 
 plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) {
 	if (is.na(color)) {
@@ -90,6 +90,18 @@ plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) 
 	polygon(c(x,rev(x)),c(top_interval,rev(bottom_interval)),col=shade_color,
 			border=NA);
 }
+
+#' Draws A Line with Confidence Interval Shading From a Collection of Data
+#'
+#' This function draws a line with confidence interval shading, assuming all data in one column should be used to build the confidence interval
+#' @param mat Matrix of data
+#' @param x Optional: X-coordindates of the line
+#' @param color Optional: Change the color of the plotted points/CI shading
+#' @param ... Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function
+#' @keywords confidence interval plot
+#' @export
+#' @examples
+#' plotLinesMatWithConfInt(...)
 
 plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 	print(dim(mat));

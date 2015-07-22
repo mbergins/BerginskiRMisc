@@ -117,16 +117,28 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 	plot_mat_with_conf_int(x_coords,means,top_int,bottom_int,color=color,...)
 }
 
+#' Draw a Barplot with Confidence Intervals
+#'
+#' This function draws a line with confidence interval shading, assuming all data in one column should be used to build the confidence interval
+#' @param mat Matrix of data
+#' @param x Optional: X-coordindates of the line
+#' @param color Optional: Change the color of the plotted points/CI shading
+#' @param ... Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function
+#' @keywords confidence interval plot
+#' @export
+#' @examples
+#' plotLinesMatWithConfInt(...)
+
 plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,...) {
-	library(Hmisc);
+  library(Hmisc);
 
   if (! is.character(label_names[1]) & is.na(label_names[1])) {
     label_names = names(data)
   }
 
-	top_int = c();
-	bottom_int = c();
-	means = c();
+  top_int = c();
+  bottom_int = c();
+  means = c();
 	
   if (class(data) == "list") {
     for (exp_name in names(data)) {

@@ -129,7 +129,7 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 #' @examples
 #' plotLinesMatWithConfInt(...)
 
-plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,...) {
+plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.95,...) {
   library(Hmisc);
 
   if (! is.character(label_names[1]) & is.na(label_names[1])) {
@@ -150,13 +150,13 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,...) {
       means = c(means,mean(this_set));
     }
   } else {
-    top_int = apply(data,2,function(x) t.test(x,conf.level=0.99)$conf.int[2])
-    bottom_int = apply(data,2,function(x) t.test(x,conf.level=0.99)$conf.int[1])
+    top_int = apply(data,2,function(x) t.test(x,conf.level=conf.int)$conf.int[2])
+    bottom_int = apply(data,2,function(x) t.test(x,conf.level=conf.int)$conf.int[1])
     
     means = colMeans(data,na.rm=T);
   }
 
-	bar_mids = barplot(means,ylim=c(0,max(top_int)*1.01),
+  bar_mids = barplot(means,
                      names=label_names,axisnames=F,lwd=3,...);
 
   #lwd = -1 makes the axes bars disappear

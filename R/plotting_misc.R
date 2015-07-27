@@ -147,7 +147,7 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
       top_int = c(top_int,conf_int[2]);
       bottom_int = c(bottom_int,conf_int[1]);
       
-      means = c(means,mean(this_set));
+      means = c(means,mean(this_set,na.rm=T));
     }
   } else {
     top_int = apply(data,2,function(x) t.test(x,conf.level=conf.int)$conf.int[2])

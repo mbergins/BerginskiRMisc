@@ -4,7 +4,8 @@
 \alias{plotBarplotWithConfInt}
 \title{Draw a Barplot with Confidence Intervals}
 \usage{
-plotBarplotWithConfInt(data, label_names = NA, padj = NA, ...)
+plotBarplotWithConfInt(data, label_names = NA, padj = NA, conf.int = 0.95,
+  ...)
 }
 \arguments{
 \item{...}{Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function}

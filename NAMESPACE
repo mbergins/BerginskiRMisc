@@ -2,6 +2,7 @@
 
 export(add_alpha_to_color)
 export(add_under_color)
+export(convertSVGtoPNG)
 export(lines_with_undershading)
 export(plotBarplotWithConfInt)
 export(plotLinesMatWithConfInt)

@@ -1,3 +1,6 @@
+###############################################################################
+# Plotting Functions
+###############################################################################
 #' Add Alpha Level to a Passed Color
 #'
 #' This function takes a color produced by 'rgb' in hex format and adds an alpha value.
@@ -82,10 +85,10 @@ plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) 
 		color = rgb(0,0,0);
 	}
 
-	plot(x,y,ylim = c(min(bottom_interval)*1.05,max(top_interval)*1.05),
-		 col=color,...);
+	plot(x,y,ylim = c(min(bottom_interval),max(top_interval)*1.08),
+		 col=color,typ='l',...);
 	
-	shade_color = add_alpha_to_color(color,0.5);
+	shade_color = add_alpha_to_color(color,0.25);
 
 	polygon(c(x,rev(x)),c(top_interval,rev(bottom_interval)),col=shade_color,
 			border=NA);
@@ -107,14 +110,14 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 	print(dim(mat));
 	means = colMeans(mat,na.rm=T);
 
-	top_int = apply(mat,2,function(x) t.test(x)$conf.int[2])
-	bottom_int = apply(mat,2,function(x) t.test(x)$conf.int[1])
+	top_int = apply(mat,2,function(x) t.test(x,conf.level=0.9)$conf.int[2])
+	bottom_int = apply(mat,2,function(x) t.test(x,conf.level=0.9)$conf.int[1])
 	
 	if (is.na(x_coords)) {
 		x_coords = 1:dim(mat)[2]
 	}
 
-	plot_mat_with_conf_int(x_coords,means,top_int,bottom_int,color=color,...)
+	plotLinesWithConfInt(x_coords,means,top_int,bottom_int,color=color,...)
 }
 
 #' Draw a Barplot with Confidence Intervals
@@ -143,7 +146,8 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   if (class(data) == "list") {
     for (exp_name in names(data)) {
       this_set = data[[exp_name]];
-      conf_int = t.test(this_set)$conf.int;
+      conf_int = t.test(this_set,conf.level=conf.int)$conf.int;
+      print(conf_int)
       top_int = c(top_int,conf_int[2]);
       bottom_int = c(bottom_int,conf_int[1]);
       
@@ -163,4 +167,40 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1)
   
   errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=3)
+}
+
+###############################################################################
+# Outside Utilities
+###############################################################################
+
+#' Convert a SVG image to PNG using imagemagick
+#'
+#' This function takes in an svg file name and converts that image to a png. 
+#' This function assumes that imagemagick has been installed and that "convert"
+#' is available at the command line. This function also assumes that the svg file
+#' has the string '.svg' present at the end of the of the svg file
+#' @param svg.file.name: The location of the svg file
+#' @param im.width Optional: Specifies the output width of the png file, defaults
+#' to 1000
+#' @keywords SVG PNG convert
+#' @export
+#' @examples
+#' svg.file = 'test.svg';
+#' svg(svg.file)
+#' plot(1:10)
+#' graphics.off()
+#' convertSVGtoPNG(svg.file)
+
+convertSVGtoPNG <- function(svg.file.name,im.width=1000) {
+  
+  #Note: R regexp requires that the escape "\" also be escaped in regexp
+  png.file.name = sub("\\.svg","\\.png",svg.file.name)
+  
+  #convert options
+  #  density: sets the number of pixels per inch sampled from the svg, 300 seems good
+  #  trim: remove any all white columns/rows from the image
+  #  resize: set the size of the output image
+  convert_cmd = sprintf('convert -density 300 %s  -trim -resize %dx %s',svg.file.name,im.width,png.file.name)
+  
+  system(convert_cmd)
 }

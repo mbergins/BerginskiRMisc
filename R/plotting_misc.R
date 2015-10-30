@@ -121,23 +121,40 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 }
 
 #' Draw a Barplot with Confidence Intervals
-#'
-#' This function draws a line with confidence interval shading, assuming all data in one column should be used to build the confidence interval
-#' @param mat Matrix of data
-#' @param x Optional: X-coordindates of the line
-#' @param color Optional: Change the color of the plotted points/CI shading
-#' @param ... Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function
+#' 
+#' This function draws a bar plot with confidence intervals from a provided list
+#' containing your data.
+#' @param data A list containing your data sets
+#' @param label_names Optional: Labels for your data sets, if not provided the 
+#'   names of the data parameter will be used
+#' @param padj Optional: Shift the position of the bar labels, negative numbers 
+#'   go up while positive numbers go down, defaults to NA
+#' @param conf.int Optional: The confidence interval percentile, defaults to 
+#'   0.95
+#' @param add.N.count Optional: Add the number of observations to the bar label
+#'   names
+#' @param ... Optional: Any additional parameters will be passed on to the 
+#'   barplot function
 #' @keywords confidence interval plot
 #' @export
 #' @examples
-#' plotLinesMatWithConfInt(...)
+#' data = list(A = seq(1,5),B=seq(1,10));
+#' plotBarplotWithConfInt(data)
 
-plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.95,...) {
+plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.95,
+                                   add.N.count = FALSE,...) {
   library(Hmisc);
 
   if (! is.character(label_names[1]) & is.na(label_names[1])) {
     label_names = names(data)
   }
+  
+  if (add.N.count) {
+    for (i in seq(1,length(data))) {
+      label_names[i] = paste0(label_names[i], sprintf(' (n=%d)',length(data[[i]])));
+    }
+  }
+    
 
   top_int = c();
   bottom_int = c();
@@ -161,12 +178,13 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   }
 
   bar_mids = barplot(means,
-                     names=label_names,axisnames=F,lwd=3,...);
+                     names=label_names,axisnames=F,lwd=3,
+					 ylim=c(0,max(top_int)*1.05),...);
 
   #lwd = -1 makes the axes bars disappear
   axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1)
   
-  errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=3)
+  errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=2)
 }
 
 ###############################################################################

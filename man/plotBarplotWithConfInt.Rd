@@ -5,22 +5,33 @@
 \title{Draw a Barplot with Confidence Intervals}
 \usage{
 plotBarplotWithConfInt(data, label_names = NA, padj = NA, conf.int = 0.95,
-  ...)
+  add.N.count = FALSE, ...)
 }
 \arguments{
-\item{...}{Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function}
+\item{data}{A list containing your data sets}
 
-\item{mat}{Matrix of data}
+\item{label_names}{Optional: Labels for your data sets, if not provided the
+names of the data parameter will be used}
 
-\item{x}{Optional: X-coordindates of the line}
+\item{padj}{Optional: Shift the position of the bar labels, negative numbers
+go up while positive numbers go down, defaults to NA}
 
-\item{color}{Optional: Change the color of the plotted points/CI shading}
+\item{conf.int}{Optional: The confidence interval percentile, defaults to
+0.95}
+
+\item{add.N.count}{Optional: Add the number of observations to the bar label
+names}
+
+\item{...}{Optional: Any additional parameters will be passed on to the
+barplot function}
 }
 \description{
-This function draws a line with confidence interval shading, assuming all data in one column should be used to build the confidence interval
+This function draws a bar plot with confidence intervals from a provided list
+containing your data.
 }
 \examples{
-plotLinesMatWithConfInt(...)
+data = list(A = seq(1,5),B=seq(1,10));
+plotBarplotWithConfInt(data)
 }
 \keyword{confidence}
 \keyword{interval}

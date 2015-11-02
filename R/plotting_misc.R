@@ -151,7 +151,8 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   
   if (add.N.count) {
     for (i in seq(1,length(data))) {
-      label_names[i] = paste0(label_names[i], sprintf(' (n=%d)',length(data[[i]])));
+      label_names[i] = paste0(label_names[i], 
+                              sprintf(' (n=%d)',length(na.omit(data[[i]]))));
     }
   }
     
@@ -182,9 +183,11 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
 					 ylim=c(0,max(top_int)*1.05),...);
 
   #lwd = -1 makes the axes bars disappear
-  axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1)
+  axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1);
   
-  errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=2)
+  errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=2);
+  
+  return(bar_mids)
 }
 
 ###############################################################################

@@ -156,7 +156,6 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
     }
   }
     
-
   top_int = c();
   bottom_int = c();
   means = c();
@@ -164,10 +163,14 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   if (class(data) == "list") {
     for (exp_name in names(data)) {
       this_set = data[[exp_name]];
-      conf_int = t.test(this_set,conf.level=conf.int)$conf.int;
-      print(conf_int)
-      top_int = c(top_int,conf_int[2]);
-      bottom_int = c(bottom_int,conf_int[1]);
+      if (length(this_set) == 1) {
+        top_int = c(top_int,NA);
+        bottom_int = c(bottom_int,NA);
+      } else {
+        conf_int = t.test(this_set,conf.level=conf.int)$conf.int;
+        top_int = c(top_int,conf_int[2]);
+        bottom_int = c(bottom_int,conf_int[1]);
+      }
       
       means = c(means,mean(this_set,na.rm=T));
     }
@@ -188,6 +191,20 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   errbar(bar_mids,means,top_int,bottom_int,add=T,cex=0.0001,lwd=2);
   
   return(bar_mids)
+}
+
+#' Apply a better set of ploting settings 
+#' 
+#' This function draws a bar plot with confidence intervals from a provided list
+#' containing your data.
+#' @export
+
+applyBetterParSettings <- function() {
+  #bty - remove box around plot
+  #mgp - move labels closer to axes
+  #mar - reduce margins around plot, format (bottom,left,top,right)
+  
+  par(bty='n', mgp=c(1.5,0.5,0), mar=c(3,3,0,0));
 }
 
 ###############################################################################

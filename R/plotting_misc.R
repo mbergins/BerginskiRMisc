@@ -107,7 +107,6 @@ plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) 
 #' plotLinesMatWithConfInt(...)
 
 plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
-	print(dim(mat));
 	means = colMeans(mat,na.rm=T);
 
 	top_int = apply(mat,2,function(x) t.test(x,conf.level=0.9)$conf.int[2])

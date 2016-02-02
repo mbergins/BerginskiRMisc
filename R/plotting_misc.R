@@ -238,7 +238,7 @@ convertSVGtoPNG <- function(svg.file.name,im.width=1000) {
   #  density: sets the number of pixels per inch sampled from the svg, 300 seems good
   #  trim: remove any all white columns/rows from the image
   #  resize: set the size of the output image
-  convert_cmd = sprintf('convert -density 300 %s  -trim -resize %dx %s',svg.file.name,im.width,png.file.name)
+  convert_cmd = sprintf('convert -density 300 %s -flatten -trim -resize %dx %s',svg.file.name,im.width,png.file.name)
   
   system(convert_cmd)
 }

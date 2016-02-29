@@ -192,6 +192,31 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   return(bar_mids)
 }
 
+#' Make a boxplot with some small improvements
+#'
+#' @param data 
+#' @param add.N.count
+#' @param ... Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function
+#' @keywords fancy boxplot
+#' @export
+#' @examples
+#' boxplot.fancy(list(A=rnorm(10),B=rnorm(10)))
+
+boxplot.fancy <- function(data,add.N.count=T,label.names=NA,...) {
+  if (is.na(label.names)) {
+    label.names = names(data)
+  }
+
+  if (add.N.count) {
+    for (i in seq(1,length(data))) {
+      label.names[i] = paste0(label.names[i], 
+                              sprintf(' (n=%d)',length(na.omit(data[[i]]))));
+    }
+  }
+  
+  boxplot(data,names=label.names)
+}
+
 #' Apply a better set of ploting settings 
 #' 
 #' This function draws a bar plot with confidence intervals from a provided list

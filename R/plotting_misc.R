@@ -194,8 +194,8 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
 
 #' Make a boxplot with some small improvements
 #'
-#' @param data 
-#' @param add.N.count
+#' @param data: A list containing your data sets 
+#' @param add.N.count: Whether or not to add the N counts to the data labels, defaults to True
 #' @param ... Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function
 #' @keywords fancy boxplot
 #' @export

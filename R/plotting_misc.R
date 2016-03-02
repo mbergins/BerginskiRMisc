@@ -183,7 +183,7 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
   bar_mids = barplot(means,
                      names=label_names,axisnames=F,lwd=3,
 					 ylim=c(0,max(top_int)*1.05),...);
-
+  
   #lwd = -1 makes the axes bars disappear
   axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1);
   
@@ -214,7 +214,7 @@ boxplot.fancy <- function(data,add.N.count=T,label.names=NA,...) {
     }
   }
   
-  boxplot(data,names=label.names)
+  boxplot(data,names=label.names,...)
 }
 
 #' Apply a better set of ploting settings 

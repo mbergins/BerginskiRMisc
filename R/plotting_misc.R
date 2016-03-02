@@ -200,9 +200,9 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
 #' @keywords fancy boxplot
 #' @export
 #' @examples
-#' boxplot.fancy(list(A=rnorm(10),B=rnorm(10)))
+#' boxplotFancy(list(A=rnorm(10),B=rnorm(10)))
 
-boxplot.fancy <- function(data,add.N.count=T,label.names=NA,...) {
+boxplotFancy <- function(data,add.N.count=T,label.names=NA,...) {
   if (is.na(label.names)) {
     label.names = names(data)
   }

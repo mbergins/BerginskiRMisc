@@ -4,11 +4,13 @@
 \alias{convertSVGtoPNG}
 \title{Convert a SVG image to PNG using imagemagick}
 \usage{
-convertSVGtoPNG(svg.file.name, im.width = 1000)
+convertSVGtoPNG(svg.file.name, im.width = 1000, debug = F)
 }
 \arguments{
 \item{im.width}{Optional: Specifies the output width of the png file, defaults
 to 1000}
+
+\item{debug}{Optional: Print out imagemagick convert command}
 
 \item{svg.file.name:}{The location of the svg file}
 }

@@ -12,6 +12,8 @@ boxplotFancy(data, add.N.count = T, label.names = NA, ...)
 \item{data:}{A list containing your data sets}
 
 \item{add.N.count:}{Whether or not to add the N counts to the data labels, defaults to True}
+
+\item{label.names:}{Specifies the label names for the data sets, defaults to the result of names(data)}
 }
 \description{
 Make a boxplot with some small improvements

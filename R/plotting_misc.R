@@ -196,6 +196,7 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
 #'
 #' @param data: A list containing your data sets 
 #' @param add.N.count: Whether or not to add the N counts to the data labels, defaults to True
+#' @param label.names: Specifies the label names for the data sets, defaults to the result of names(data)
 #' @param ... Optional: Any additional parameters will be passed on to the plotLinesWithConfInt function
 #' @keywords fancy boxplot
 #' @export
@@ -203,18 +204,23 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
 #' boxplotFancy(list(A=rnorm(10),B=rnorm(10)))
 
 boxplotFancy <- function(data,add.N.count=T,label.names=NA,...) {
-  if (is.na(label.names)) {
+  if (is.na(label.names[1])) {
     label.names = names(data)
   }
 
   if (add.N.count) {
     for (i in seq(1,length(data))) {
       label.names[i] = paste0(label.names[i], 
-                              sprintf(' (n=%d)',length(na.omit(data[[i]]))));
+                              sprintf('\n(n=%d)',length(na.omit(data[[i]]))));
     }
   }
   
-  boxplot(data,names=label.names,...)
+  if (add.N.count) {
+    boxplot(data,names=label.names,axis=F,xaxt='n',...)
+    axis(1,at=1:length(label.names),tick=F,labels=label.names)
+  } else {
+    boxplot(data,names=label.names,...)
+  }
 }
 
 #' Apply a better set of ploting settings 
@@ -244,6 +250,7 @@ applyBetterParSettings <- function() {
 #' @param svg.file.name: The location of the svg file
 #' @param im.width Optional: Specifies the output width of the png file, defaults
 #' to 1000
+#' @param debug Optional: Print out imagemagick convert command
 #' @keywords SVG PNG convert
 #' @export
 #' @examples
@@ -253,7 +260,7 @@ applyBetterParSettings <- function() {
 #' graphics.off()
 #' convertSVGtoPNG(svg.file)
 
-convertSVGtoPNG <- function(svg.file.name,im.width=1000) {
+convertSVGtoPNG <- function(svg.file.name,im.width=1000,debug=F) {
   
   #Note: R regexp requires that the escape "\" also be escaped in regexp
   png.file.name = sub("\\.svg","\\.png",svg.file.name)
@@ -262,7 +269,10 @@ convertSVGtoPNG <- function(svg.file.name,im.width=1000) {
   #  density: sets the number of pixels per inch sampled from the svg, 300 seems good
   #  trim: remove any all white columns/rows from the image
   #  resize: set the size of the output image
-  convert_cmd = sprintf('convert -density 300 %s -flatten -trim -resize %dx %s',svg.file.name,im.width,png.file.name)
-  
+  convert_cmd = sprintf('convert -density 300 "%s" -flatten -trim -resize %dx "%s"',
+                        svg.file.name,im.width,png.file.name)
+  if (debug) {
+    print(convert_cmd)  
+  }
   system(convert_cmd)
 }

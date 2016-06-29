@@ -96,7 +96,8 @@ plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) 
 
 #' Draws A Line with Confidence Interval Shading From a Collection of Data
 #'
-#' This function draws a line with confidence interval shading, assuming all data in one column should be used to build the confidence interval
+#' This function draws a line with confidence interval shading, assuming all 
+#' data in one column should be used to build the confidence interval
 #' @param mat Matrix of data
 #' @param x Optional: X-coordindates of the line
 #' @param color Optional: Change the color of the plotted points/CI shading
@@ -109,8 +110,8 @@ plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) 
 plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 	means = colMeans(mat,na.rm=T);
 
-	top_int = apply(mat,2,function(x) t.test(x,conf.level=0.9)$conf.int[2])
-	bottom_int = apply(mat,2,function(x) t.test(x,conf.level=0.9)$conf.int[1])
+	top_int = apply(mat,2,function(x) t.test(x,conf.level=0.95)$conf.int[2])
+	bottom_int = apply(mat,2,function(x) t.test(x,conf.level=0.95)$conf.int[1])
 	
 	if (is.na(x_coords)) {
 		x_coords = 1:dim(mat)[2]
@@ -235,6 +236,26 @@ applyBetterParSettings <- function() {
   #mar - reduce margins around plot, format (bottom,left,top,right)
   
   par(bty='n', mgp=c(1.5,0.5,0), mar=c(3,3,0,0));
+}
+
+#' Define a theme for ggplot2 for myself
+#' 
+#' This function returns a theme that can be directly used in ggplot2 plots.
+#' @examples
+#' qplot(1:10,1:10) + theme_berginski()
+#' @export
+theme_berginski <- function() {
+  library(ggplot2);
+  
+  theme_temp <- theme(legend.position=c(0.8,0.2), 
+                      panel.grid = element_blank(), 
+                      panel.background = element_blank(), 
+                      panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(), 
+                      axis.ticks = element_line(color='black'),
+                      axis.text = element_text(color='black'))
+  
+  return(theme_temp)
 }
 
 ###############################################################################

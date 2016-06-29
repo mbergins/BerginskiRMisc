@@ -16,7 +16,8 @@ plotLinesMatWithConfInt(mat, x_coords = NA, color = NA, ...)
 \item{x}{Optional: X-coordindates of the line}
 }
 \description{
-This function draws a line with confidence interval shading, assuming all data in one column should be used to build the confidence interval
+This function draws a line with confidence interval shading, assuming all 
+data in one column should be used to build the confidence interval
 }
 \examples{
 plotLinesMatWithConfInt(...)

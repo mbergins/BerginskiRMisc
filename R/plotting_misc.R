@@ -247,8 +247,7 @@ applyBetterParSettings <- function() {
 theme_berginski <- function() {
   library(ggplot2);
   
-  theme_temp <- theme(legend.position=c(0.8,0.2), 
-                      panel.grid = element_blank(), 
+  theme_temp <- theme(panel.grid = element_blank(), 
                       panel.background = element_blank(), 
                       panel.grid.major = element_blank(),
                       panel.grid.minor = element_blank(), 

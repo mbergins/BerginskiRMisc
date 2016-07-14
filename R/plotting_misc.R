@@ -13,14 +13,14 @@
 #' red_alpha = add_alpha_to_color(red,0.5);
 
 add_alpha_to_color <- function(color,alpha) {
-	color_vector = col2rgb(color)/255;
-	
-	#Deal with the case when alpha is specified on an 8-bit scale vs 0-1
-	if (alpha > 1) {
-		alpha = alpha/255;
-	}
-	
-	color_plus_alpha = rgb(t(color_vector),alpha=alpha);
+  color_vector = col2rgb(color)/255;
+  
+  #Deal with the case when alpha is specified on an 8-bit scale vs 0-1
+  if (alpha > 1) {
+    alpha = alpha/255;
+  }
+  
+  color_plus_alpha = rgb(t(color_vector),alpha=alpha);
 }
 
 #' Add A Color Underneath a Set of X-Y Coordinates
@@ -36,11 +36,11 @@ add_alpha_to_color <- function(color,alpha) {
 #' add_under_color(0:5,0:5,rgb(1,0,0,0.5));
 
 add_under_color <- function(x,y,color) {
-	poly_coords = list();
-	poly_coords$x = c(min(x),x,max(x));
-	poly_coords$y = c(0,y,0);
-
-	polygon(poly_coords$x,poly_coords$y,col=color,border=NA);
+  poly_coords = list();
+  poly_coords$x = c(min(x),x,max(x));
+  poly_coords$y = c(0,y,0);
+  
+  polygon(poly_coords$x,poly_coords$y,col=color,border=NA);
 }
 
 #' Draws A Line with Shading Underneath
@@ -57,13 +57,13 @@ add_under_color <- function(x,y,color) {
 #' lines_with_undershading(0:5,0:5,col=rgb(1,0,0))
 
 lines_with_undershading <- function(x,y,color,undercolor=NA,...) {
-	lines(x,y,col=color,...);
-
-	if (is.na(undercolor)) {
-		undercolor = add_alpha_to_color(color,0.25);
-	}
-
-	add_under_color(x,y,undercolor)
+  lines(x,y,col=color,...);
+  
+  if (is.na(undercolor)) {
+    undercolor = add_alpha_to_color(color,0.25);
+  }
+  
+  add_under_color(x,y,undercolor)
 }
 
 #' Draws A Line with Confidence Interval Shading
@@ -81,17 +81,17 @@ lines_with_undershading <- function(x,y,color,undercolor=NA,...) {
 #' plotLinesWithConfInt(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
 
 plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) {
-	if (is.na(color)) {
-		color = rgb(0,0,0);
-	}
-
-	plot(x,y,ylim = c(min(bottom_interval),max(top_interval)*1.08),
-		 col=color,typ='l',...);
-	
-	shade_color = add_alpha_to_color(color,0.25);
-
-	polygon(c(x,rev(x)),c(top_interval,rev(bottom_interval)),col=shade_color,
-			border=NA);
+  if (is.na(color)) {
+    color = rgb(0,0,0);
+  }
+  
+  plot(x,y,ylim = c(min(bottom_interval),max(top_interval)*1.08),
+       col=color,typ='l',...);
+  
+  shade_color = add_alpha_to_color(color,0.25);
+  
+  polygon(c(x,rev(x)),c(top_interval,rev(bottom_interval)),col=shade_color,
+          border=NA);
 }
 
 #' Draws A Line with Confidence Interval Shading From a Collection of Data
@@ -108,16 +108,89 @@ plotLinesWithConfInt <- function(x,y,top_interval,bottom_interval,color=NA,...) 
 #' plotLinesMatWithConfInt(...)
 
 plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
-	means = colMeans(mat,na.rm=T);
+  means = colMeans(mat,na.rm=T);
+  
+  top_int = apply(mat,2,function(x) t.test(x,conf.level=0.95)$conf.int[2])
+  bottom_int = apply(mat,2,function(x) t.test(x,conf.level=0.95)$conf.int[1])
+  
+  if (is.na(x_coords)) {
+    x_coords = 1:dim(mat)[2]
+  }
+  
+  plotLinesWithConfInt(x_coords,means,top_int,bottom_int,color=color,...)
+}
 
-	top_int = apply(mat,2,function(x) t.test(x,conf.level=0.95)$conf.int[2])
-	bottom_int = apply(mat,2,function(x) t.test(x,conf.level=0.95)$conf.int[1])
-	
-	if (is.na(x_coords)) {
-		x_coords = 1:dim(mat)[2]
-	}
+#' Make a Time-lapse ggplot2 Object with Confidence Intervals
+#' 
+#' This function builds a ggplot2 object that plots the mean of a provided set 
+#' of data and the corresponding confidence interval that data at each time 
+#' point. The input format is expected to be a list of matrices where each 
+#' matrix represents a set of time series. Each of the matrices in the list are 
+#' formated so that each row is a single time point and each column is a single 
+#' experiment.
+#' 
+#' The confidence interval is calculated using a t.test and indicated on the
+#' plot as a shaded area that matches the color of the mean line.
+#' 
+#' @param inputData A list of matrices containing your data sets
+#' @param time.interval Optional: The amount of time between each sample
+#' @param conf.int Optional: Percentage size of the confidence interval plot
+#' @param xlabel Optional: If specified, will be passed to xlab
+#' @param ylabel Optional: If specified, will be passed to ylab
+#' @keywords confidence interval plot
+#' @export
+#' @examples
+#' data = list(A = matrix(1:10,nrow=10,ncol=10) + rnorm(100), 
+#'             B = matrix(1:10,nrow=10,ncol=10) + rnorm(100) + 5,
+#'             C = matrix(1:10,nrow=10,ncol=10) + rnorm(100,sd=5));
+#' thisPlot = buildTimelapsePlotWithConfInt(data);
+#' thisPlot
 
-	plotLinesWithConfInt(x_coords,means,top_int,bottom_int,color=color,...)
+buildTimelapsePlotWithConfInt <- function(inputData, time.interval = 1, conf.int = 0.95,
+                                          xlabel = NA, ylabel = NA) {
+  require(ggplot2)
+  
+  #This list will be converted to a data frame after determining the mean and
+  #upper/lower confidence intervals
+  summaryData = list();
+  for (expType in names(inputData)) {
+    summaryData[[paste0(expType,"Mean")]] = rowMeans(inputData[[expType]],na.rm=T)
+    
+    if (mean(summaryData[[paste0(expType,"Mean")]]))
+      summaryData[[paste0(expType,"Upper")]] = apply(inputData[[expType]],1,
+                                                     function(x) t.test(x,conf.level=conf.int)$conf.int[2])
+    
+    summaryData[[paste0(expType,"Lower")]] = apply(inputData[[expType]],1,
+                                                   function(x) t.test(x,conf.level=conf.int)$conf.int[1])
+  }
+  summaryData = as.data.frame(summaryData);
+  summaryData$time = seq(along.with = summaryData[,1],by = time.interval,from = 0)
+  
+  #Use the names in the input data to specify the lines and corresponding
+  confIntPlot = ggplot(data=summaryData,aes_string(x="time"));
+  for (expType in names(inputData)) {
+    confIntPlot <- confIntPlot + 
+      geom_line(aes_string(y=paste0(expType,"Mean"),
+                           color=shQuote(expType)), 
+                size=1.5) +
+      geom_ribbon(aes_string(ymin=paste0(expType,"Upper"), 
+                             ymax=paste0(expType,"Lower"), 
+                             fill=shQuote(expType)), 
+                  alpha=0.2);
+  }
+  
+  confIntPlot = confIntPlot + scale_colour_brewer("",type="qual",palette = 2) + 
+    scale_fill_brewer("",type="qual",palette = 2)
+  
+  if (! is.na(xlabel)) {
+    confIntPlot = confIntPlot + xlab(xlabel);
+  }
+  
+  if (! is.na(ylabel)) {
+    confIntPlot = confIntPlot + ylab(ylabel);
+  }
+  
+  return(confIntPlot)
 }
 
 #' Draw a Barplot with Confidence Intervals
@@ -144,7 +217,7 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.95,
                                    add.N.count = FALSE,...) {
   library(Hmisc);
-
+  
   if (! is.character(label_names[1]) & is.na(label_names[1])) {
     label_names = names(data)
   }
@@ -155,11 +228,11 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
                               sprintf(' (n=%d)',length(na.omit(data[[i]]))));
     }
   }
-    
+  
   top_int = c();
   bottom_int = c();
   means = c();
-	
+  
   if (class(data) == "list") {
     for (exp_name in names(data)) {
       this_set = data[[exp_name]];
@@ -180,10 +253,10 @@ plotBarplotWithConfInt <- function(data,label_names = NA,padj= NA,conf.int = 0.9
     
     means = colMeans(data,na.rm=T);
   }
-
+  
   bar_mids = barplot(means,
                      names=label_names,axisnames=F,lwd=3,
-					 ylim=c(0,max(top_int)*1.05),...);
+                     ylim=c(0,max(top_int)*1.05),...);
   
   #lwd = -1 makes the axes bars disappear
   axis(1,labels = label_names,at=bar_mids,line = 1,padj=padj,lwd=-1);
@@ -208,7 +281,7 @@ boxplotFancy <- function(data,add.N.count=T,label.names=NA,...) {
   if (is.na(label.names[1])) {
     label.names = names(data)
   }
-
+  
   if (add.N.count) {
     for (i in seq(1,length(data))) {
       label.names[i] = paste0(label.names[i], 

@@ -369,3 +369,40 @@ convertSVGtoPNG <- function(svg.file.name,im.width=1000,debug=F) {
   }
   system(convert_cmd)
 }
+
+#' Convert a SVG image to different image type using imagemagick
+#' 
+#' This function takes in an svg file name and converts that image to a
+#' different format using imagemagick. This function assumes that imagemagick
+#' has been installed and that "convert" is available at the command line. This
+#' function also assumes that the svg file has the string '.svg' present at the
+#' end of the of the svg file
+#' @param svg.file.name: The location of the svg file
+#' @param target Optional: The extension of the output file, defaults to .jpg
+#' @param im.width Optional: Specifies the output width of the output file,
+#'   defaults to 1000
+#' @param debug Optional: Print out imagemagick convert command
+#' @keywords SVG convert
+#' @export
+#' @examples
+#' svg.file = 'test.svg';
+#' svg(svg.file)
+#' plot(1:10)
+#' graphics.off()
+#' convertSVGtoTarget(svg.file,target="jpg")
+convertSVGtoTarget <- function(svg.file.name,im.width=1000,target="jpg",debug=F) {
+  
+  #Note: R regexp requires that the escape "\" also be escaped in regexp
+  output.file.name = sub("\\.svg",paste0("\\.",target),svg.file.name)
+  print(output.file.name)
+  #convert options
+  #  density: sets the number of pixels per inch sampled from the svg, 300 seems good
+  #  trim: remove any all white columns/rows from the image
+  #  resize: set the size of the output image
+  convert_cmd = sprintf('convert -density 300 "%s" -flatten -trim -resize %dx "%s"',
+                        svg.file.name,im.width,output.file.name)
+  if (debug) {
+    print(convert_cmd)  
+  }
+  system(convert_cmd)
+}

@@ -394,7 +394,7 @@ convertSVGtoTarget <- function(svg.file.name,im.width=1000,target="jpg",debug=F)
   
   #Note: R regexp requires that the escape "\" also be escaped in regexp
   output.file.name = sub("\\.svg",paste0("\\.",target),svg.file.name)
-  print(output.file.name)
+  
   #convert options
   #  density: sets the number of pixels per inch sampled from the svg, 300 seems good
   #  trim: remove any all white columns/rows from the image

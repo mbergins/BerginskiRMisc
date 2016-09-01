@@ -137,6 +137,8 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 #' @param conf.int Optional: Percentage size of the confidence interval plot
 #' @param xlabel Optional: If specified, will be passed to xlab
 #' @param ylabel Optional: If specified, will be passed to ylab
+#' @param legend.labels Optional: A mapping between the names of the inputData
+#'   list and the desired legend titles
 #' @keywords confidence interval plot
 #' @export
 #' @examples
@@ -147,7 +149,7 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 #' thisPlot
 
 buildTimelapsePlotWithConfInt <- function(inputData, time.interval = 1, conf.int = 0.95,
-                                          xlabel = NA, ylabel = NA) {
+                                          xlabel = NA, ylabel = NA,legend.labels = NA) {
   require(ggplot2)
   
   #This list will be converted to a data frame after determining the mean and
@@ -168,17 +170,24 @@ buildTimelapsePlotWithConfInt <- function(inputData, time.interval = 1, conf.int
   
   #Use the names in the input data to specify the lines and corresponding
   confIntPlot = ggplot(data=summaryData,aes_string(x="time"));
+  
   for (expType in names(inputData)) {
+    
+    color.string = shQuote(expType)
+    if (! is.na(legend.labels[1])) {
+      color.string = shQuote(legend.labels[[expType]])
+    }
+    
     confIntPlot <- confIntPlot + 
       geom_line(aes_string(y=paste0(expType,"Mean"),
-                           color=shQuote(expType)), 
+                           color=color.string), 
                 size=1.5) +
       geom_ribbon(aes_string(ymin=paste0(expType,"Upper"), 
                              ymax=paste0(expType,"Lower"), 
-                             fill=shQuote(expType)), 
+                             fill=color.string), 
                   alpha=0.2);
   }
-  
+
   confIntPlot = confIntPlot + scale_colour_brewer("",type="qual",palette = 2) + 
     scale_fill_brewer("",type="qual",palette = 2)
   

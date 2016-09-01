@@ -5,7 +5,7 @@
 \title{Make a Time-lapse ggplot2 Object with Confidence Intervals}
 \usage{
 buildTimelapsePlotWithConfInt(inputData, time.interval = 1, conf.int = 0.95,
-  xlabel = NA, ylabel = NA)
+  xlabel = NA, ylabel = NA, legend.labels = NA)
 }
 \arguments{
 \item{inputData}{A list of matrices containing your data sets}
@@ -17,6 +17,9 @@ buildTimelapsePlotWithConfInt(inputData, time.interval = 1, conf.int = 0.95,
 \item{xlabel}{Optional: If specified, will be passed to xlab}
 
 \item{ylabel}{Optional: If specified, will be passed to ylab}
+
+\item{legend.labels}{Optional: A mapping between the names of the inputData
+list and the desired legend titles}
 }
 \description{
 This function builds a ggplot2 object that plots the mean of a provided set 

@@ -4,10 +4,22 @@
 \alias{applyBetterParSettings}
 \title{Apply a better set of ploting settings}
 \usage{
-applyBetterParSettings()
+applyBetterParSettings(...)
 }
 \description{
-This function draws a bar plot with confidence intervals from a provided list
-containing your data.
+This function sets sets the par settings to something I think is a bit more 
+reasonable for base R graphics. Any of these settings can be overriden by
+passing in different values
+}
+\details{
+The settings and explanation are:
+
+-bty='n': remove the box around the entire plot
+
+-mgp=c(1.5,0.5,0): reduce distance of the axis title from the axis (1.5), 
+reduce distance of tick mark labels from the ticks (0.5)
+
+-mar=c(3,3,0,0): reduce the margins around the (bottom,left,top,right) of the
+plot
 }
 

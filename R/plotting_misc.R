@@ -129,15 +129,19 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 #' formated so that each row is a single time point and each column is a single 
 #' experiment.
 #' 
-#' The confidence interval is calculated using a t.test and indicated on the
+#' The confidence interval is calculated using a t.test and indicated on the 
 #' plot as a shaded area that matches the color of the mean line.
 #' 
 #' @param inputData A list of matrices containing your data sets
-#' @param time.interval Optional: The amount of time between each sample
-#' @param conf.int Optional: Percentage size of the confidence interval plot
+#' @param time.interval Optional: The amount of time between each sample,
+#'   defaults to 1
+#' @param x.tick.position Optional: The location of the x axis numeric
+#'   positions, if not specified, defaults to time.interval
+#' @param conf.int Optional: Percentage size of the confidence interval plot,
+#'   defaults to 95%
 #' @param xlabel Optional: If specified, will be passed to xlab
 #' @param ylabel Optional: If specified, will be passed to ylab
-#' @param legend.labels Optional: A mapping between the names of the inputData
+#' @param legend.labels Optional: A mapping between the names of the inputData 
 #'   list and the desired legend titles
 #' @keywords confidence interval plot
 #' @export
@@ -148,8 +152,10 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 #' thisPlot = buildTimelapsePlotWithConfInt(data);
 #' thisPlot
 
-buildTimelapsePlotWithConfInt <- function(inputData, time.interval = 1, conf.int = 0.95,
-                                          xlabel = NA, ylabel = NA,legend.labels = NA) {
+buildTimelapsePlotWithConfInt <- 
+  function(inputData, x.tick.position = NA, time.interval = 1, conf.int = 0.95,
+           xlabel = NA, ylabel = NA,legend.labels = NA) {
+    
   require(ggplot2)
   
   #This list will be converted to a data frame after determining the mean and
@@ -166,13 +172,16 @@ buildTimelapsePlotWithConfInt <- function(inputData, time.interval = 1, conf.int
                                                    function(x) t.test(x,conf.level=conf.int)$conf.int[1])
   }
   summaryData = as.data.frame(summaryData);
-  summaryData$time = seq(along.with = summaryData[,1],by = time.interval,from = 0)
-  
+  if (!is.na(x.tick.position[1])) {
+    summaryData$time = x.tick.position;
+  } else {
+    summaryData$time = seq(along.with = summaryData[,1],by = time.interval,from = 0);  
+  }
+
   #Use the names in the input data to specify the lines and corresponding
   confIntPlot = ggplot(data=summaryData,aes_string(x="time"));
   
   for (expType in names(inputData)) {
-    
     color.string = shQuote(expType)
     if (! is.na(legend.labels[1])) {
       color.string = shQuote(legend.labels[[expType]])
@@ -306,18 +315,29 @@ boxplotFancy <- function(data,add.N.count=T,label.names=NA,...) {
   }
 }
 
-#' Apply a better set of ploting settings 
+#' Apply a better set of ploting settings
 #' 
-#' This function draws a bar plot with confidence intervals from a provided list
-#' containing your data.
+#' This function sets sets the par settings to something I think is a bit more 
+#' reasonable for base R graphics. Any of these settings can be overriden by
+#' passing in different values
+#' 
+#' The settings and explanation are:
+#' 
+#' -bty='n': remove the box around the entire plot
+#' 
+#' -mgp=c(1.5,0.5,0): reduce distance of the axis title from the axis (1.5), 
+#' reduce distance of tick mark labels from the ticks (0.5)
+#' 
+#' -mar=c(3,3,0,0): reduce the margins around the (bottom,left,top,right) of the
+#' plot
 #' @export
 
-applyBetterParSettings <- function() {
+applyBetterParSettings <- function(...) {
   #bty - remove box around plot
   #mgp - move labels closer to axes
   #mar - reduce margins around plot, format (bottom,left,top,right)
   
-  par(bty='n', mgp=c(1.5,0.5,0), mar=c(3,3,0,0));
+  par(bty='n', mgp=c(1.5,0.5,0), mar=c(3,3,0,0),...);
 }
 
 #' Define a theme for ggplot2 for myself
@@ -329,14 +349,15 @@ applyBetterParSettings <- function() {
 theme_berginski <- function() {
   library(ggplot2);
   
-  theme_temp <- theme(panel.grid = element_blank(), 
-                      panel.background = element_blank(), 
-                      panel.grid.major = element_blank(),
-                      panel.grid.minor = element_blank(), 
-                      axis.ticks = element_line(color='black'),
-                      axis.text = element_text(color='black'))
+  return(theme(panel.grid = element_blank(), 
+               panel.background = element_blank(), 
+               panel.grid.major = element_blank(),
+               panel.grid.minor = element_blank(), 
+               axis.ticks = element_line(color='black'),
+               axis.text = element_text(color='black'),
+               axis.title.x=element_text(margin=margin(1.5,0,0,0)),
+               axis.title.y=element_text(margin=margin(0,1.5,0,0))))
   
-  return(theme_temp)
 }
 
 ###############################################################################

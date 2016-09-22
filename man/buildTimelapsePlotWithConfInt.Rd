@@ -4,21 +4,27 @@
 \alias{buildTimelapsePlotWithConfInt}
 \title{Make a Time-lapse ggplot2 Object with Confidence Intervals}
 \usage{
-buildTimelapsePlotWithConfInt(inputData, time.interval = 1, conf.int = 0.95,
-  xlabel = NA, ylabel = NA, legend.labels = NA)
+buildTimelapsePlotWithConfInt(inputData, x.tick.position = NA,
+  time.interval = 1, conf.int = 0.95, xlabel = NA, ylabel = NA,
+  legend.labels = NA)
 }
 \arguments{
 \item{inputData}{A list of matrices containing your data sets}
 
-\item{time.interval}{Optional: The amount of time between each sample}
+\item{x.tick.position}{Optional: The location of the x axis numeric
+positions, if not specified, defaults to time.interval}
 
-\item{conf.int}{Optional: Percentage size of the confidence interval plot}
+\item{time.interval}{Optional: The amount of time between each sample,
+defaults to 1}
+
+\item{conf.int}{Optional: Percentage size of the confidence interval plot,
+defaults to 95%}
 
 \item{xlabel}{Optional: If specified, will be passed to xlab}
 
 \item{ylabel}{Optional: If specified, will be passed to ylab}
 
-\item{legend.labels}{Optional: A mapping between the names of the inputData
+\item{legend.labels}{Optional: A mapping between the names of the inputData 
 list and the desired legend titles}
 }
 \description{
@@ -30,7 +36,7 @@ formated so that each row is a single time point and each column is a single
 experiment.
 }
 \details{
-The confidence interval is calculated using a t.test and indicated on the
+The confidence interval is calculated using a t.test and indicated on the 
 plot as a shaded area that matches the color of the mean line.
 }
 \examples{

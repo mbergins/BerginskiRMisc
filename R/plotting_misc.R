@@ -138,7 +138,7 @@ plotLinesMatWithConfInt <- function(mat,x_coords=NA,color=NA,...) {
 #' @param x.tick.position Optional: The location of the x axis numeric
 #'   positions, if not specified, defaults to time.interval
 #' @param conf.int Optional: Percentage size of the confidence interval plot,
-#'   defaults to 95%
+#'   defaults to 95\%
 #' @param xlabel Optional: If specified, will be passed to xlab
 #' @param ylabel Optional: If specified, will be passed to ylab
 #' @param legend.labels Optional: A mapping between the names of the inputData 

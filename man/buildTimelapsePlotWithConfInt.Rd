@@ -18,7 +18,7 @@ positions, if not specified, defaults to time.interval}
 defaults to 1}
 
 \item{conf.int}{Optional: Percentage size of the confidence interval plot,
-defaults to 95%}
+defaults to 95\%}
 
 \item{xlabel}{Optional: If specified, will be passed to xlab}
 

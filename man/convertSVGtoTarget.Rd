@@ -33,4 +33,3 @@ convertSVGtoTarget(svg.file,target="jpg")
 }
 \keyword{SVG}
 \keyword{convert}
-

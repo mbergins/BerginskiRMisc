@@ -36,4 +36,3 @@ plotBarplotWithConfInt(data)
 \keyword{confidence}
 \keyword{interval}
 \keyword{plot}
-

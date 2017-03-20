@@ -28,4 +28,3 @@ plotLinesWithConfInt(1:5,1:5,c(1:5)+1,c(1:5)-1,rgb(0.5,0.5,0.5,0.5),typ='l')
 \keyword{confidence}
 \keyword{interval}
 \keyword{plot}
-

@@ -19,4 +19,3 @@ red = rgb(1,0,0);
 red_alpha = add_alpha_to_color(red,0.5);
 }
 \keyword{alpha}
-

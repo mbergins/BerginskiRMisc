@@ -25,4 +25,3 @@ plotLinesMatWithConfInt(...)
 \keyword{confidence}
 \keyword{interval}
 \keyword{plot}
-

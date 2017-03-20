@@ -22,4 +22,3 @@ reduce distance of tick mark labels from the ticks (0.5)
 -mar=c(3,3,0,0): reduce the margins around the (bottom,left,top,right) of the
 plot
 }
-

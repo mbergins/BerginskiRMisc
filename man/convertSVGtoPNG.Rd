@@ -30,4 +30,3 @@ convertSVGtoPNG(svg.file)
 \keyword{PNG}
 \keyword{SVG}
 \keyword{convert}
-

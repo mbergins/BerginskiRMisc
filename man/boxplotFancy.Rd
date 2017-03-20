@@ -23,4 +23,3 @@ boxplotFancy(list(A=rnorm(10),B=rnorm(10)))
 }
 \keyword{boxplot}
 \keyword{fancy}
-

@@ -25,4 +25,3 @@ lines_with_undershading(0:5,0:5,col=rgb(1,0,0))
 }
 \keyword{line}
 \keyword{plot}
-

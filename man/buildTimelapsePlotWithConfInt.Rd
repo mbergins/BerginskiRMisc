@@ -49,4 +49,3 @@ thisPlot
 \keyword{confidence}
 \keyword{interval}
 \keyword{plot}
-

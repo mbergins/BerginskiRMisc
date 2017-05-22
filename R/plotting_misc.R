@@ -340,7 +340,7 @@ applyBetterParSettings <- function(...) {
   par(bty='n', mgp=c(1.5,0.5,0), mar=c(3,3,0,0),...);
 }
 
-#' Define a theme for ggplot2 for myself
+#' Define a ggplot2 theme for myself
 #' 
 #' This function returns a theme that can be directly used in ggplot2 plots.
 #' @examples

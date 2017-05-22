@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting_misc.R
 \name{theme_berginski}
 \alias{theme_berginski}
-\title{Define a theme for ggplot2 for myself}
+\title{Define a ggplot2 theme for myself}
 \usage{
 theme_berginski()
 }

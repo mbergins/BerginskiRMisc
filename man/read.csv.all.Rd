@@ -4,12 +4,14 @@
 \alias{read.csv.all}
 \title{Read all CSV files found in search string}
 \usage{
-read.csv.all(search_str, add_file_num = F)
+read.csv.all(search_str, add_file_num = F, debug = F)
 }
 \arguments{
 \item{search_str}{string to pass to Sys.glob for the search}
 
 \item{add_file_num}{Optional: add an additional column (file_num) to indicate the count in the list of files being imported}
+
+\item{debug}{Optional: print out debugging messages during operation}
 }
 \description{
 This function uses Sys.glob to search for files matching a given string and then cycles through those files, reading them in as CSVs. This function assumes that all your CSV files are the same format or at least can be 'rbind'ed together.

@@ -7,17 +7,22 @@
 #' This function uses Sys.glob to search for files matching a given string and then cycles through those files, reading them in as CSVs. This function assumes that all your CSV files are the same format or at least can be 'rbind'ed together.
 #' @param search_str string to pass to Sys.glob for the search
 #' @param add_file_num Optional: add an additional column (file_num) to indicate the count in the list of files being imported
+#' @param debug Optional: print out debugging messages during operation
 #' @keywords CSV
 #' @export
 #' @examples
 #' all_CSVs = read.csv.all('directory/*/*.csv')
 
-read.csv.all <- function(search_str, add_file_num = F) {
+read.csv.all <- function(search_str, add_file_num = F, debug = F) {
+	require(tidyverse);
 	csv_files = Sys.glob(search_str);
 
 	full_set = c();
 	file_count = 0;
 	for (this_file in csv_files) {
+		if (debug) {
+			 print(paste0('Working on this file: ',this_file)) 
+		}
 		file_count = file_count + 1;
 		try({
 			this_set = read.csv(this_file);

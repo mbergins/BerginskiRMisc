@@ -340,6 +340,43 @@ applyBetterParSettings <- function(...) {
   par(bty='n', mgp=c(1.5,0.5,0), mar=c(3,3,0,0),...);
 }
 
+#' Add a column to a tidy data set with the count of observations appended
+#' 
+#' This function returns a tidy data set with one addition column which contains
+#' a variable name with the counts appended. As an example, suppose you had 10 
+#' observations of category (column named your_category) 'A' and 12 observations
+#' of category 'B'. The output will add this additional column:
+#' 
+#' your_category.n 
+#' <chr> 
+#' A\n(n=10) 
+#' B\n(n=12)
+#' 
+#' This is most useful for making a new categorical variable name to pass to a 
+#' ggplot bar/box plot.
+#' @param dataSet: A tidy data set
+#' @param countField: A column to use for counting
+#' @param addNewline Optional: Add a newline between the category name and the
+#'   variable count, defaults to true
+#' @export
+addNCountColumn <- function(dataSet,countField,addNewline = T) {
+  library(tidyverse);
+  
+  countSummary = dataSet %>% group_by_(countField) %>% summarize(count = n())
+  nCountStrings = c()
+  for (rowNum in 1:dim(countSummary)[1]) {
+    thisCategoryRow = countSummary[rowNum,]
+    nCountStrings = c(nCountStrings,
+                      paste0(thisCategoryRow[[countField]],'\n(n=',thisCategoryRow$count,')'))
+  }
+  countSummary[[paste0(countField,'.n')]] = nCountStrings
+  countSummary$count <- NULL
+  
+  dataSet = left_join(dataSet,countSummary)
+  
+  return(dataSet)  
+}
+
 #' Define a ggplot2 theme for myself
 #' 
 #' This function returns a theme that can be directly used in ggplot2 plots.

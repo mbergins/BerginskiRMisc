@@ -474,3 +474,27 @@ convertSVGtoTarget <- function(svg.file.name,im.width=1000,target="jpg",debug=F)
   }
   system(convert_cmd)
 }
+
+
+#' Trim the whitespace around an image using Imagemagick
+#' 
+#' This function takes a filename for an image, which will then be processed using the trim command in imagemagick to remove the surrounding whitespace
+#' @param file.name: The location of the file
+#' @param debug Optional: Print out imagemagick convert command
+#' @keywords trim
+#' @export
+#' @examples
+#' file.name = 'test.png';
+#' svg(file.name)
+#' plot(1:10)
+#' graphics.off()
+#' convertSVGtoTarget(file.name)
+trimImage <- function(file.name,debug=F) {
+  
+  convert_cmd = sprintf('convert "%s" -trim "%s"',
+                        file.name,file.name)
+  if (debug) {
+    print(convert_cmd)
+  }
+  system(convert_cmd)
+}

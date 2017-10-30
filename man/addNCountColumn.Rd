@@ -19,13 +19,12 @@ This function returns a tidy data set with one addition column which contains
 a variable name with the counts appended. As an example, suppose you had 10 
 observations of category (column named your_category) 'A' and 12 observations
 of category 'B'. The output will add this additional column:
-}
-\details{
 your_category.n 
 <chr> 
 A\n(n=10) 
 B\n(n=12)
-
+}
+\details{
 This is most useful for making a new categorical variable name to pass to a 
 ggplot bar/box plot.
 }

@@ -346,7 +346,6 @@ applyBetterParSettings <- function(...) {
 #' a variable name with the counts appended. As an example, suppose you had 10 
 #' observations of category (column named your_category) 'A' and 12 observations
 #' of category 'B'. The output will add this additional column:
-#' 
 #' your_category.n 
 #' <chr> 
 #' A\n(n=10) 
@@ -362,16 +361,18 @@ applyBetterParSettings <- function(...) {
 addNCountColumn <- function(dataSet,countField,addNewline = T) {
   library(tidyverse);
   
-  countSummary = dataSet %>% group_by_(countField) %>% summarize(count = n())
+  countFieldenQuo <- enquo(countField)
+  
+  countSummary = dataSet %>% group_by(!!countFieldenQuo) %>% summarize(count = n())
   nCountStrings = c()
   for (rowNum in 1:dim(countSummary)[1]) {
     thisCategoryRow = countSummary[rowNum,]
     nCountStrings = c(nCountStrings,
-                      paste0(thisCategoryRow[[countField]],'\n(n=',thisCategoryRow$count,')'))
+                    paste0(thisCategoryRow[1],'\n(n=',thisCategoryRow[2],')'))
   }
-  countSummary[[paste0(countField,'.n')]] = nCountStrings
+  countSummary[[paste0(quo_name(countFieldenQuo),'.n')]] = nCountStrings
   countSummary$count <- NULL
-  
+
   dataSet = left_join(dataSet,countSummary)
   
   return(dataSet)  

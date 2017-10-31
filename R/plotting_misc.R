@@ -362,8 +362,8 @@ addNCountColumn <- function(dataSet,countField,addNewline = T) {
   library(tidyverse);
   
   countFieldenQuo <- enquo(countField)
+  countSummary = dataSet %>% group_by(!!countFieldenQuo) %>% summarise(count = n())
   
-  countSummary = dataSet %>% group_by(!!countFieldenQuo) %>% summarize(count = n())
   nCountStrings = c()
   for (rowNum in 1:dim(countSummary)[1]) {
     thisCategoryRow = countSummary[rowNum,]

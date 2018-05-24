@@ -394,8 +394,7 @@ theme_berginski <- function() {
                axis.ticks = element_line(color='black'),
                axis.text = element_text(color='black'),
                axis.title.x=element_text(margin=margin(1.5,0,0,0)),
-               axis.title.y=element_text(margin=margin(0,1.5,0,0)),
-               legend.title=element_blank()))
+               axis.title.y=element_text(margin=margin(0,1.5,0,0))))
   
 }
 

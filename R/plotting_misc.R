@@ -9,15 +9,14 @@
 #' of category 'B'. The output will add this additional column:
 #' your_category.n 
 #' <chr> 
-#' A\n(n=10) 
-#' B\n(n=12)
+#' A\\n(n=10) 
+#' B\\n(n=12)
 #' 
 #' This is most useful for making a new categorical variable name to pass to a 
 #' ggplot bar/box plot.
 #' @param dataSet: A tidy data set
 #' @param countField: A column to use for counting
-#' @param addNewline Optional: Add a newline between the category name and the
-#'   variable count, defaults to true
+#' @param addNewline Optional: Add a newline between the category name and the variable count, defaults to true
 #' @export
 addNCountColumn <- function(dataSet,countField,addNewline = T) {
   library(tidyverse);

@@ -7,8 +7,7 @@
 addNCountColumn(dataSet, countField, addNewline = T)
 }
 \arguments{
-\item{addNewline}{Optional: Add a newline between the category name and the
-variable count, defaults to true}
+\item{addNewline}{Optional: Add a newline between the category name and the variable count, defaults to true}
 
 \item{dataSet:}{A tidy data set}
 
@@ -21,8 +20,8 @@ observations of category (column named your_category) 'A' and 12 observations
 of category 'B'. The output will add this additional column:
 your_category.n 
 <chr> 
-A\n(n=10) 
-B\n(n=12)
+A\\n(n=10) 
+B\\n(n=12)
 }
 \details{
 This is most useful for making a new categorical variable name to pass to a 

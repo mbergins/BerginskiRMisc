@@ -7,7 +7,7 @@
 #' a variable name with the counts appended. As an example, suppose you had 10 
 #' observations of category (column named your_category) 'A' and 12 observations
 #' of category 'B'. The output will add this additional column:
-#' your_category.n 
+#' your_category.
 #' <chr> 
 #' A\\n(n=10) 
 #' B\\n(n=12)

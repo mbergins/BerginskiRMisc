@@ -14,7 +14,6 @@
 #' all_CSVs = read.csv.all('directory/*/*.csv')
 
 read.csv.all <- function(search_str, add_file_num = F, debug = F) {
-	require(tidyverse);
 	csv_files = Sys.glob(search_str);
   
 	if (length(csv_files) == 0) {

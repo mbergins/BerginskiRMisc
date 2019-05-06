@@ -15,10 +15,12 @@ trimImage(file.name, debug = F)
 This function takes a filename for an image, which will then be processed using the trim command in imagemagick to remove the surrounding whitespace
 }
 \examples{
+\dontrun{
 file.name = 'test.png';
 svg(file.name)
 plot(1:10)
 graphics.off()
 convertSVGtoTarget(file.name)
+}
 }
 \keyword{trim}

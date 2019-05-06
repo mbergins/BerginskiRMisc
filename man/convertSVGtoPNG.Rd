@@ -21,11 +21,13 @@ is available at the command line. This function also assumes that the svg file
 has the string '.svg' present at the end of the of the svg file
 }
 \examples{
+\dontrun{
 svg.file = 'test.svg';
 svg(svg.file)
 plot(1:10)
 graphics.off()
 convertSVGtoPNG(svg.file)
+}
 }
 \keyword{PNG}
 \keyword{SVG}

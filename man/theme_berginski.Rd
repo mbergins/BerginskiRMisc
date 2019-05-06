@@ -9,6 +9,3 @@ theme_berginski()
 \description{
 This function returns a theme that can be directly used in ggplot2 plots.
 }
-\examples{
-qplot(1:10,1:10) + theme_berginski()
-}

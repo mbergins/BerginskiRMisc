@@ -14,6 +14,5 @@ Installation
 The devtools package is required to install this package, it can be installed using:
 
 ```R
-library('devtools'); 
-install_github('mbergins/BerginskiRMisc');
+devtools::install_github('mbergins/BerginskiRMisc');
 ```

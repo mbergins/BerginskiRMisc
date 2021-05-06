@@ -19,8 +19,7 @@
 #' @param addNewline Optional: Add a newline between the category name and the variable count, defaults to true
 #' @export
 addNCountColumn <- function(dataSet,countField,addNewline = T) {
-  library(tidyverse);
-  
+
   countFieldenQuo <- enquo(countField)
   countSummary = dataSet %>% group_by(!!countFieldenQuo) %>% summarise(count = n())
   

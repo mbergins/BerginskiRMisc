@@ -3,8 +3,4 @@
 \docType{package}
 \name{R_misc}
 \alias{R_misc}
-\alias{R_misc-package}
 \title{R_misc.}
-\description{
-R_misc.
-}

@@ -20,7 +20,7 @@ file.name = 'test.png';
 svg(file.name)
 plot(1:10)
 graphics.off()
-convertSVGtoTarget(file.name)
+trimImage(file.name)
 }
 }
 \keyword{trim}

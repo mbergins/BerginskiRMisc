@@ -4,8 +4,7 @@
 \alias{convertSVGtoTarget}
 \title{Convert a SVG image to different image type using imagemagick}
 \usage{
-convertSVGtoTarget(svg.file.name, im.width = 1000, target = "jpg",
-  debug = F)
+convertSVGtoTarget(svg.file.name, im.width = 1000, target = "jpg", debug = F)
 }
 \arguments{
 \item{im.width}{Optional: Specifies the output width of the output file,

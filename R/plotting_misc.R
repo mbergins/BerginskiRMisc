@@ -151,9 +151,14 @@ convertSVGtoTarget <- function(svg.file.name,im.width=1000,target="jpg",debug=F)
 #' svg(file.name)
 #' plot(1:10)
 #' graphics.off()
-#' convertSVGtoTarget(file.name)
+#' trimImage(file.name)
 #' }
 trimImage <- function(file.name,debug=F) {
+  
+  if (nchar(Sys.which("convert")) == 0) {
+    warning("Imagemagick not installed or not avaible when called through trimImage function.")
+    return()
+  }
   
   convert_cmd = sprintf('convert "%s" -trim "%s"',
                         file.name,file.name)
